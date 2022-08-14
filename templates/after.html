@@ -1,0 +1,23 @@
+<html>
+<body bgcolor=#a3cfb4>
+    <center>
+        <h1>  PREDICTION :  </h1>
+        <h2> {{data}} </h2>
+        <h2> {{data1}} </h2>
+        <h2> {{proba1}} </h2>
+
+        {%if proba2 != 0%}
+        <h2> {{data2}} </h2>
+        <h2> {{proba2}} </h2>
+        {%endif%}
+
+        {%if proba3 != 0%}
+        <h2> {{data3}} </h2>
+        <h2> {{proba3}} </h2>
+        {%endif%}
+
+        <br><br>
+        <a href='/'>go back to home page</a>
+    </center>
+</body>
+</html>
