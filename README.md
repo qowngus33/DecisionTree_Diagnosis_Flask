@@ -19,4 +19,12 @@
 
 #### 4. static/templates
 * 웹을 위한 javaScript 파일
+
+</br>
+
+*****
+
+</br>
+
+csv 파일은 Github Release에 Datasets라는 이름의 태그로 올려져있습니다.
   
