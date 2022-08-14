@@ -3,6 +3,7 @@
 ### user specific ###
 *.csv
 *.pkl
+.idea
 
 ### Flask ###
 instance/*
