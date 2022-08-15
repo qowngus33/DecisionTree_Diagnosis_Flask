@@ -3,9 +3,12 @@ import pickle
 import numpy as np
 import pandas as pd
 
-model = pickle.load(open('diagnose.pkl', 'rb'))
+model_cat = pickle.load(open('data/cat/diagnose.pkl', 'rb'))
+model_dog = pickle.load(open('data/dog/diagnose.pkl', 'rb'))
+
 app = Flask(__name__)
-catDisease = pd.read_csv('labeledData.csv', encoding='euc-kr')
+catDisease = pd.read_csv('data/cat/labeledData.csv', encoding='euc-kr')
+dogDisease = pd.read_csv('data/dog/labeledData.csv', encoding='euc-kr')
 
 @app.route('/')
 def man():
@@ -18,16 +21,23 @@ def home():
     data3 = request.form['c']
     data4 = request.form['d']
 
-    x_pre = catDisease.iloc[[0]]
-    columns = catDisease.columns[4:]
+    x_pre = None
+    columns = None
+    model = None
+    if data1 == "개" or data1 == "강아지" or data1 == "dog" or data1 == "puppy":
+        x_pre = dogDisease.iloc[[0]]
+        columns = dogDisease.columns[4:]
+        model = model_dog
+    elif data1 == "고양이" or data1 == "cat":
+        x_pre = catDisease.iloc[[0]]
+        columns = catDisease.columns[4:]
+        model = model_cat
 
     for column in columns:
         x_pre.loc[0, column] = 0
 
     for column in columns:
-        if len(data1) != 0 and column.find(data1) != -1:
-            x_pre.loc[0, column] = 1
-        elif len(data2) != 0 and column.find(data2) != -1:
+        if len(data2) != 0 and column.find(data2) != -1:
             x_pre.loc[0,column] = 1
         elif len(data3) != 0 and column.find(data3) != -1:
             x_pre.loc[0,column] = 1
@@ -40,12 +50,8 @@ def home():
     probability = model.predict_proba(x_pre)
     probability = probability[0].tolist()
 
-    first = 0
-    second = 0
-    third = 0
-    first_idx = 0
-    second_idx = 0
-    third_idx = 0
+    first, second, third = [0,0,0]
+    first_idx, second_idx, third_idx = [0,0,0]
     for i in range(len(probability)):
         if probability[i] > first:
             first = probability[i]
