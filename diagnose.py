@@ -6,27 +6,27 @@ import warnings
 # PerformanceWarning 출력 안하도록 설정
 warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
 
-def model_train(name):
-    if name != "cat" and name != "dog":
-        return None
+def model_train(filePath,
+                fileName,
+                symptomListFileName):
 
-    filePath = "data/"+name+"/"
-    petDisease = pd.read_csv(filePath+'animal_disease.csv', encoding='euc-kr')
-    symptomList = pd.read_csv(filePath+'symptomList.csv', encoding='euc-kr')
+    petDisease = pd.read_csv(filePath+fileName, encoding='euc-kr')
+    symptomList = pd.read_csv(filePath+symptomListFileName, encoding='euc-kr')
 
     all_words = []
     for i in range(len(symptomList)):
         all_words.append(symptomList["이름"].iloc[i])
     print(len(all_words))
 
-    for word in all_words:
-        petDisease.insert(3,word,0)
-        for i in range(len(petDisease)):
-            text = str(petDisease.loc[i, '주요증상'])
-            if text.find(word) != -1:
-                petDisease.loc[i, word] = 1
+    temp_arr = [[0] * len(all_words) for _ in range(len(petDisease))]
 
-    X = petDisease.iloc[:,3:]
+    for i in range(len(petDisease)):
+        for j in range(len(all_words)):
+            text = str(petDisease.loc[i, '주요증상'])
+            if text.find(all_words[j]) != -1:
+                temp_arr[i][j] = 1
+
+    X = pd.DataFrame(temp_arr, columns=all_words)
     y = petDisease['질병명']
 
     tree_clf = DecisionTreeClassifier(max_depth=300)
@@ -38,5 +38,10 @@ def model_train(name):
     petDisease.to_csv(filePath+"labeledData.csv", index=False, encoding='euc-kr')
 
 if __name__ == "__main__":
-    model_train("cat")
-    model_train("dog")
+    model_train(filePath="data/" + "cat" + "/",
+                fileName='animal_diseaseV0.csv',
+                symptomListFileName='symptomList.csv')
+
+    model_train(filePath="data/" + "dog" + "/",
+                fileName='animal_diseaseV0.csv',
+                symptomListFileName='symptomList.csv')

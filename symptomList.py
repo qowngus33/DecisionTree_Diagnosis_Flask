@@ -1,27 +1,23 @@
 import pandas as pd
 
-def split_cat_dog():
+def split_cat_dog(fileName,
+                  filePath,
+                  encoding):
     # 데이터프레임을 읽어온 후 기본 전처리
-    petDisease = pd.read_csv('data/animal_diseaseV0.csv', encoding='euc-kr')
-    petDisease = petDisease.dropna(subset=['질병명'])
-    petDisease = petDisease.dropna(subset=['주요증상'])
-    petDisease = petDisease.reset_index(drop=True)
-    petDisease['주요증상'] = petDisease['주요증상'].str.replace(" ", "")
+    petDisease = pd.read_csv(filePath+fileName, encoding=encoding)
 
     # 개, 고양이 파일 분리
     petDiseaseDog = petDisease.loc[petDisease.index[petDisease['축종'].str.contains('개')].tolist(), :]
-    petDiseaseDog.to_csv('data/dog/animal_disease.csv', index=False, encoding="euc-kr")
+    petDiseaseDog.to_csv(filePath+"dog/"+fileName, index=False, encoding=encoding)
 
     petDiseaseCat = petDisease.loc[petDisease.index[petDisease['축종'].str.contains('고양이')].tolist(), :]
-    petDiseaseCat.to_csv('data/cat/animal_disease.csv', index=False, encoding="euc-kr")
+    petDiseaseCat.to_csv(filePath+"cat/"+fileName, index=False, encoding=encoding)
 
 
-def create_symptom_list(name):
-    if name != "cat" and name != "dog":
-        return None
+def create_symptom_list(filePath,
+                        fileName):
 
-    fileName = "data/"+name+"/"+"animal_disease.csv"
-    petDisease = pd.read_csv(fileName, encoding='euc-kr')
+    petDisease = pd.read_csv(filePath+fileName, encoding='euc-kr')
 
     all_words = ['이름']
     for n in range(len(petDisease)):
@@ -46,10 +42,16 @@ def create_symptom_list(name):
     # print(len(new_words))
 
     symptomList = pd.Series(all_words)
-    fileName = "data/" + name + "/" + "symptomList.csv"
+    fileName = filePath + "symptomList.csv"
     symptomList.to_csv(fileName, index = False, encoding="euc-kr")
 
 if __name__ == "__main__":
-    split_cat_dog()
-    create_symptom_list("cat")
-    create_symptom_list("dog")
+    split_cat_dog(filePath='data/',
+                  fileName="animal_diseaseV0.csv",
+                  encoding='euc-kr')
+
+    create_symptom_list(filePath="data/cat/",
+                        fileName="animal_diseaseV0.csv")
+
+    create_symptom_list(filePath="data/dog/",
+                        fileName="animal_diseaseV0.csv")
