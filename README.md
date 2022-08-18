@@ -17,7 +17,7 @@
  * Flask를 통한 모델 api 배포
  * 로컬 ip로 웹에서 모델 데모 확인
 
-#### 4. static/templates
+#### 4. test.py
 * 모델 테스트
 
 #### 5. static/templates
