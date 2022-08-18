@@ -18,6 +18,9 @@
  * 로컬 ip로 웹에서 모델 데모 확인
 
 #### 4. static/templates
+* 모델 테스트
+
+#### 5. static/templates
 * 웹을 위한 javaScript 파일
 
 </br>
