@@ -1,10 +1,6 @@
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 import pickle
-import warnings
-
-# PerformanceWarning 출력 안하도록 설정
-warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
 
 def model_train(filePath,
                 fileName,
@@ -29,10 +25,23 @@ def model_train(filePath,
     X = pd.DataFrame(temp_arr, columns=all_words)
     y = petDisease['질병명']
 
-    tree_clf = DecisionTreeClassifier(max_depth=300)
+    tree_clf = DecisionTreeClassifier(max_depth=170)
     tree_clf.fit(X, y)
 
     print("훈련 세트 정확도: {:.3f}".format(tree_clf.score(X, y)))
+
+    count_arr = [0 for _ in range(len(X))]
+    for i in range(len(X)):
+        if y[i] != tree_clf.predict(X.loc[[i]]):
+            count = 0
+            for j in range(len(temp_arr[i])):
+                if temp_arr[i][j] == 1:
+                    count += 1
+            count_arr[count] += 1
+            print(i,y[i],tree_clf.predict(X.loc[[i]]),count)
+    for i in range(1,len(count_arr)):
+        count_arr[i] += count_arr[i-1]
+    # print(count_arr)
 
     pickle.dump(tree_clf, open(filePath+'diagnose.pkl', 'wb'))
     petDisease.to_csv(filePath+"labeledData.csv", index=False, encoding='euc-kr')

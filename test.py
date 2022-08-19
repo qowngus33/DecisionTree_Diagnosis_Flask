@@ -37,7 +37,7 @@ def model_test(filePath,
     y = testFile['질병명']
 
     model = pickle.load(open(filePath+'diagnose.pkl', 'rb'))
-    print("테스트 세트 정확도: {:.3f}".format(model.score(X, y)))
+    print("테스트 세트 정확도: {:.3f}".format(model.score(X, y)*100))
 
     for i in range(len(X)):
         if y[i] == model.predict(X.loc[[i]]):
