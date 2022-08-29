@@ -5,6 +5,12 @@ def split_cat_dog(fileName,
                   encoding):
     # 데이터프레임을 읽어온 후 기본 전처리
     petDisease = pd.read_csv(filePath+fileName, encoding=encoding)
+    petDisease = petDisease.loc[:, ['질병명', '축종', '주요증상']]
+    petDisease.drop(['Unnamed: 0'], axis=1, inplace=True)
+    petDisease = petDisease.dropna(subset=['축종'])
+    petDisease = petDisease.dropna(subset=['주요증상'])
+    petDisease = petDisease.dropna(subset=['질병명'])
+    petDisease['주요증상'] = petDisease['주요증상'].str.replace(" ", "")
 
     # 개, 고양이 파일 분리
     petDiseaseDog = petDisease.loc[petDisease.index[petDisease['축종'].str.contains('개')].tolist(), :]
@@ -28,18 +34,6 @@ def create_symptom_list(filePath,
         for word in words:
             if word not in all_words and len(word) > 0:
                 all_words.append(word)
-
-    # new_words = ['이름']
-    # for i in range(len(all_words)):
-    #     word = all_words[i]
-    #     flag = False
-    #     for j in range(i+1,len(all_words)):
-    #         if all_words[j].find(word) != -1:
-    #             flag = True
-    #     if not flag:
-    #         new_words.append(word)
-    #
-    # print(len(new_words))
 
     symptomList = pd.Series(all_words)
     fileName = filePath + "symptomList.csv"

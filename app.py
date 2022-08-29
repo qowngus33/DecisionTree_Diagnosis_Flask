@@ -21,20 +21,14 @@ def home():
     data3 = request.form['c']
     data4 = request.form['d']
 
-    x_pre = None
-    columns = None
-    model = None
     if data1 == "개" or data1 == "강아지" or data1 == "dog" or data1 == "puppy":
         x_pre = dogDisease.iloc[[0]]
-        columns = dogDisease.columns[4:]
+        columns = dogDisease.columns[1:]
         model = model_dog
-    elif data1 == "고양이" or data1 == "cat":
+    else:
         x_pre = catDisease.iloc[[0]]
-        columns = catDisease.columns[4:]
+        columns = catDisease.columns[1:]
         model = model_cat
-
-    for column in columns:
-        x_pre.loc[0, column] = 0
 
     for column in columns:
         if len(data2) != 0 and column.find(data2) != -1:
@@ -46,7 +40,7 @@ def home():
         else:
             x_pre.loc[0,column] = 0
 
-    x_pre = np.array(x_pre.iloc[0][3:]).reshape(1, -1)
+    x_pre = x_pre.drop(['질병명'], axis=1)
     probability = model.predict_proba(x_pre)
     probability = probability[0].tolist()
 
