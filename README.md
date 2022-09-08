@@ -1,33 +1,44 @@
 # DecisionTree-Diagnosis-Flask
 
-### 파일설명
+* 한국과학기술정보연구원의 동물 질병 데이터를 사용한 주요 반려동물(고양이/강아지) 질병 예측 머신러닝 api
+* Machine learning api for predicting pet (cat/dog) diseases using veterinary public data from the Korea Institute of Science and Technology Information
+
+</br>
+
+## Implementation
+
+* Machine Learning Model: **Random Forests**
+* Web Api: **Flask**
+
+</br>
+
+## File information
 
 #### 1. symptomList.py
-* `animal_diseaseV0.csv` 파일을 통해 `symptomList.csv` 파일 생성
-* `symptomList.csv` 파일 내에는 `animal_diseaseV0.csv` 파일 안의 주요증상 열에 있는 데이터를 `,` ,  `|`로 구분하여 새로운 행으로 저장
+*  Create `symptomList.csv` file using `animal_diseaseV0.csv`
+*  Data in the `주요증상` column in the file `animal_diseaseV0.csv` are separated by ',', '|' and stored in a new row in `symptomList.csv`
 
 #### 2. diagnosys.py
-  * `symptomList.csv`을 통해 모델 학습용 데이터 생성
+  * Generate data for model learning with `symptomList.csv`
     * `labeledData.csv`
-  * 생성된 학습용 데이터를 통해 모델을 학습시킨 결과를 pickle 파일 생성 
+  * Generate model from `labeledData.csv` and save models to pickle files
     * `diagnose.pkl`
 
 #### 3. app.py
- * `diagnosys.py` 에서 생성된 `diagnose.pkl` 파일을 통해 모델 사용
- * Flask를 통한 모델 api 배포
- * 로컬 ip로 웹에서 모델 데모 확인
+ * Use machine learning model from `diagnose.pkl`
+ * Deploy machine learning model api with Flask
+ * View model demo on web
 
 #### 4. test.py
-* 모델 테스트
+* Test the model with test datas
 
 #### 5. static/templates
-* 웹을 위한 javaScript 파일
+* JavaScript file for model demo on web
 
 </br>
 
-*****
 
-</br>
-
-csv 파일은 Github Release에 Datasets라는 이름의 태그로 올려져있습니다.
+## Other
+* csv 파일은 Github Release에 Datasets라는 이름의 태그로 올려져있습니다.
+* The csv file is tagged with the name Datasets in the Github release.
   
