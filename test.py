@@ -39,17 +39,17 @@ def model_test(filePath,
     model = pickle.load(open(filePath+'diagnose.pkl', 'rb'))
     print("테스트 세트 정확도: {:.3f}".format(model.score(X, y)*100))
 
-    for i in range(len(X)):
-        if y[i] == model.predict(X.loc[[i]]):
-            print(y[i],i)
+    # for i in range(len(X)):
+    #     if y[i] == model.predict(X.loc[[i]]):
+    #         print(y[i],i)
 
     labeled_data = pd.concat([y,X],axis=1)
     labeled_data.to_csv(filePath+"testLabeledData.csv", index=False, encoding='utf-8')
 
 if __name__ == "__main__":
-    split_cat_dog(fileName="ml_test.csv",
-                  filePath='data/',
-                  encoding='utf-8')
+    # split_cat_dog(fileName="ml_test.csv",
+    #               filePath='data/',
+    #               encoding='utf-8')
 
     model_test(filePath="data/" + "cat" + "/",
                testfileName="ml_test.csv",
