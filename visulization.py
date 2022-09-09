@@ -17,7 +17,7 @@ def model_visualization(model,
                     )
 
     (graph,) = pydot.graph_from_dot_file('data/image/tree.dot')
-    graph.write_png('tree_visualization.png')
+    graph.write_png('data/image/tree_visualization.png')
 
 if __name__ == "__main__":
     catDisease = pd.read_csv('data/cat/labeledData.csv', encoding='euc-kr')
