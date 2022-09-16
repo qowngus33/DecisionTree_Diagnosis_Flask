@@ -32,10 +32,18 @@ def load_train_data(filePath,
 
 def model_train(filePath,
                 fileName,
-                symptomListFileName):
+                symptomListFileName,
+                max_depth_,
+                n_estimators_,
+                min_samples_split_,
+                max_features_):
 
     X, y = load_train_data(filePath, fileName, symptomListFileName)
-    tree_clf = RandomForestClassifier(max_depth=90)
+    tree_clf = RandomForestClassifier(max_depth=max_depth_,
+                                      n_estimators=n_estimators_,
+                                      min_samples_split = min_samples_split_,
+                                      max_features=max_features_,
+                                      random_state=13)
     tree_clf.fit(X, y)
 
     print("훈련 세트 정확도: {:.3f}".format(tree_clf.score(X, y)))
@@ -47,8 +55,16 @@ def model_train(filePath,
 if __name__ == "__main__":
     model_train(filePath="data/" + "cat" + "/",
                 fileName='animal_diseaseV0.csv',
-                symptomListFileName='symptomList.csv')
+                symptomListFileName='symptomList.csv',
+                max_depth_ = 20,
+                n_estimators_ = 150,
+                min_samples_split_ = 14,
+                max_features_ = 2)
 
     model_train(filePath="data/" + "dog" + "/",
                 fileName='animal_diseaseV0.csv',
-                symptomListFileName='symptomList.csv')
+                symptomListFileName='symptomList.csv',
+                max_depth_=30,
+                n_estimators_=150,
+                min_samples_split_=2,
+                max_features_=14)

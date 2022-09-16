@@ -56,24 +56,28 @@ def fine_tune(filePath,
                     count += 1
 
     result.sort(key=lambda x: (-x[4]))
-    print('| max_depth | n_estimators | min_samples_split | max_features | score |')
-    print('| --------- | ------------ | ----------------- | ------------ | ----- |')
+    print('| max_depth | n_estimators | max_features | min_samples_split | score |')
+    print('| --------- | ------------ | ------------ | ----------------- | ----- |')
     for i in range(10):
         print('| ',result[i][0],' | ',result[i][1],' | ',result[i][2],' | ',result[i][3],' | ',result[i][4],' |')
     print()
 
 if __name__ == "__main__":
-    # model_test(filePath="data/" + "cat" + "/",
-    #            testfileName="ml_test.csv",
-    #            symptomListFileName='symptomList.csv')
+    model_test(filePath="data/" + "cat" + "/",
+               fileName="ml_test.csv",
+               symptomListFileName='symptomList.csv')
 
-    fine_tune(filePath="data/" + "dog" + "/",
-              testfileName="ml_test.csv",
-              trainFileName="animal_diseaseV0.csv",
-              symptomListFileName='symptomList.csv')
+    model_test(filePath="data/" + "dog" + "/",
+               fileName="ml_test.csv",
+               symptomListFileName='symptomList.csv')
 
-    fine_tune(filePath="data/" + "cat" + "/",
-              testfileName="ml_test.csv",
-              trainFileName="animal_diseaseV0.csv",
-              symptomListFileName='symptomList.csv')
+    # fine_tune(filePath="data/" + "dog" + "/",
+    #           testfileName="ml_test.csv",
+    #           trainFileName="animal_diseaseV0.csv",
+    #           symptomListFileName='symptomList.csv')
+    #
+    # fine_tune(filePath="data/" + "cat" + "/",
+    #           testfileName="ml_test.csv",
+    #           trainFileName="animal_diseaseV0.csv",
+    #           symptomListFileName='symptomList.csv')
 
