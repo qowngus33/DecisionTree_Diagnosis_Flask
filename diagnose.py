@@ -1,14 +1,16 @@
+
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 import pickle
 
-def model_train(filePath,
-                fileName,
-                symptomListFileName):
+def load_train_data(filePath,
+                    fileName,
+                    symptomListFileName):
 
-    petDisease = pd.read_csv(filePath+fileName, encoding='euc-kr')
-    symptomList = pd.read_csv(filePath+symptomListFileName, encoding='euc-kr')
+    petDisease = pd.read_csv(filePath + fileName, encoding='euc-kr')
+    symptomList = pd.read_csv(filePath + symptomListFileName, encoding='euc-kr')
 
     all_words = []
     for i in range(len(symptomList)):
@@ -26,23 +28,17 @@ def model_train(filePath,
     X = pd.DataFrame(temp_arr, columns=all_words)
     y = petDisease['질병명']
 
+    return X, y
+
+def model_train(filePath,
+                fileName,
+                symptomListFileName):
+
+    X, y = load_train_data(filePath, fileName, symptomListFileName)
     tree_clf = RandomForestClassifier(max_depth=90)
     tree_clf.fit(X, y)
 
     print("훈련 세트 정확도: {:.3f}".format(tree_clf.score(X, y)))
-    # count_arr = [0 for _ in range(len(X))]
-    # for i in range(len(X)):
-    #     if y[i] != tree_clf.predict(X.loc[[i]]):
-    #         count = 0
-    #         for j in range(len(temp_arr[i])):
-    #             if temp_arr[i][j] == 1:
-    #                 count += 1
-    #         count_arr[count] += 1
-    #         print(i,y[i],tree_clf.predict(X.loc[[i]]),count)
-    # for i in range(1,len(count_arr)):
-    #     count_arr[i] += count_arr[i-1]
-    #
-    # print(count_arr)
 
     labeledData = pd.concat([y,X],axis=1)
     pickle.dump(tree_clf, open(filePath+'diagnose.pkl', 'wb'))
