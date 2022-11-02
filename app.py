@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import pickle
-import numpy as np
 import pandas as pd
 
 model_cat = pickle.load(open('data/cat/diagnose.pkl', 'rb'))
@@ -10,12 +9,17 @@ app = Flask(__name__)
 catDisease = pd.read_csv('data/cat/labeledData.csv', encoding='euc-kr')
 dogDisease = pd.read_csv('data/dog/labeledData.csv', encoding='euc-kr')
 
+global first_diagnosis
+
 @app.route('/')
-def man():
+def main():
     return render_template('home.html')
 
 @app.route('/predict', methods=['POST'])
 def home():
+    global first_diagnosis
+    first_diagnosis = " "
+
     data1 = request.form['a']
     data2 = request.form['b']
     data3 = request.form['c']
@@ -58,6 +62,8 @@ def home():
             third_idx = i
 
     classes = model.classes_
+    first_diagnosis = classes[first_idx]
+
     return render_template('after.html',
                            data1=classes[first_idx],
                            data2=classes[second_idx],
@@ -65,6 +71,10 @@ def home():
                            proba1=first*100,
                            proba2=second*100,
                            proba3=third*100)
+
+@app.route("/tospring")
+def spring():
+    return first_diagnosis
 
 if __name__ == "__main__":
     app.run(debug=True)
