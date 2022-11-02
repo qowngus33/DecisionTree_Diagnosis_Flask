@@ -1,4 +1,4 @@
-## dog
+# dog
 
 | max_depth | n_estimators | max_features | min_samples_split | score |
 | --------- | ------------ | ------------ | ----------------- | ----- |
@@ -14,7 +14,7 @@
 |  40  |  90  |  12  |  14  |  12.5  |
 
 
-## cat
+# cat
 
 | max_depth | n_estimators | max_features | min_samples_split | score |
 | --------- | ------------ | ------------ | ----------------- | ----- |
