@@ -1,5 +1,9 @@
+"""
+@auther qowngus33
+"""
 import pandas as pd
 
+# 테스트 데이터 생성
 def create_test_data(filePath,
                      fileName,
                      symptomListFileName):
@@ -7,6 +11,7 @@ def create_test_data(filePath,
     testFile = testFile.fillna(0)
     symptomList = pd.read_csv(filePath + symptomListFileName, encoding='euc-kr')
 
+    # 모든 증상 열을 불러옴
     all_words = []
     for i in range(len(symptomList)):
         all_words.append(symptomList["이름"].iloc[i])
@@ -26,9 +31,11 @@ def create_test_data(filePath,
 
     return X, y
 
+# 축종에 따라 파일을 분리
 def split_cat_dog(fileName,
                   filePath,
                   encoding):
+
     # 데이터프레임을 읽어온 후 기본 전처리
     petDisease = pd.read_csv(filePath+fileName, encoding=encoding)
     petDisease = petDisease.loc[:, ['질병명', '축종', '주요증상']]
